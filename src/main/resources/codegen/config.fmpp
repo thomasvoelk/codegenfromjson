@@ -1,0 +1,5 @@
+removeExtensions: ftl
+dataRoot: .
+data: {
+  dataelements: json(dataelements.json, UTF-8)
+}
