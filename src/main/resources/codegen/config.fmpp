@@ -1,5 +1,5 @@
 removeExtensions: ftl
-dataRoot: .
+dataRoot: ../META-INF
 data: {
   dataelements: json(dataelements.json, UTF-8)
 }

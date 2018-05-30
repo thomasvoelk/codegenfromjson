@@ -1,8 +1,10 @@
 [
   {
-    "type": "Integer",
-    "section": "someSection",
-    "name": "someProperty",
+    "name": "Enum1",
     "defaultValue": "1"
+  },
+  {
+    "name": "Enum2",
+    "defaultValue": "2"
   }
 ]
