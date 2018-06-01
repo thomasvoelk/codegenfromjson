@@ -1,18 +1,27 @@
 <@pp.dropOutputFile />
+<#macro formatValue value type><#if type == "String">"${value}"<#else> ${value}</#if></#macro>
+<#assign package = "your.pckge"/>
 <#list dataelements as dataelement>
-    <@pp.changeOutputFile name="/de/test/"+dataelement.name+".java" />
-package de.test;
+    <#if "WAEHRUNG_ISOCOD"?split(",")?seq_contains(dataelement.shortName)> <#-- specify for which datelements you want to create an enum -->
+        <#assign className = dataelement.shortName?replace("_", " ")?capitalize?replace(" ", "")> <#-- Poor man's camel case -->
+        <#assign dataType = "String"/> <#-- we need some conditional assignments if we want to use other data types -->
+        <@pp.changeOutputFile name=package?replace(".", "/")+"/"+className+".java" />
+package ${package};
 
-public enum ${dataelement.name} {
+public enum ${className} {
 
-    <#list dataelement.values as value>
-        ${value.name}(<#if dataelement.type == "String">"</#if>${value.value}<#if dataelement.type == "String">"</#if>)<#sep>,</#sep>
-    </#list>;
+        <#compress>
+            <#list dataelement.singleValues as value>
+                ${value}(<@formatValue value="${value}" type="${dataType}"/>)<#sep>,
+            </#list>;
+        </#compress>
 
-    private ${dataelement.type} value;
 
-    ${dataelement.name}(${dataelement.type} value) {
+    private ${dataType} value;
+
+    ${className}(${dataType} value) {
         this.value = value;
     }
 }
+    </#if>
 </#list>
